@@ -2,6 +2,8 @@
 from __init__ import CURSOR, CONN
 from department import Department
 
+
+
 class Employee:
 
     # Dictionary of objects saved to the database.
@@ -97,14 +99,17 @@ class Employee:
 
     def update(self):
         """Update the table row corresponding to the current Employee instance."""
+        
         sql = """
-            UPDATE employees
-            SET name = ?, job_title = ?, department_id = ?
-            WHERE id = ?
-        """
-        CURSOR.execute(sql, (self.name, self.job_title,
+        UPDATE employees
+        SET name = ?, job_title = ?, department_id = ?
+        WHERE id = ?
+    """
+            
+        CURSOR.execute(sql, ( self.name, self.job_title,
                              self.department_id, self.id))
         CONN.commit()
+        
 
     def delete(self):
         """Delete the table row corresponding to the current Employee instance,
@@ -187,4 +192,5 @@ class Employee:
 
     def reviews(self):
         """Return list of reviews associated with current employee"""
-        pass
+        from review import Review
+        return[review for review in Review.all.values() if review.employee_id == self.id]
